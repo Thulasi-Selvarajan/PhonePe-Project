@@ -347,14 +347,14 @@ with tab1:
     col3=st.sidebar
     with col3:
         st.write("**Just Activate**")
-        st.write("**One App For All Your Payments**")
+        st.write("**One App For All Things Money.**")
         st.write("**Easy Transactions**")
         st.write("**Multiple Payment Modes**")
-        st.write("**PhonePe Merchants**")
+        st.write("**Pay whenever you like, wherever you like.**")
         st.write("**Multiple Ways To Pay**")
         st.write("**-> 1.Direct Transfer & More**")
-        st.write("**-> 2.QR Code**")
-        st.write("**Earn Great Rewards**")
+        st.write("**-> 2.Scan & Pay**")
+        st.write("**Find all your favourite apps on PhonePe Switch.**")
 
 
 with tab2:
