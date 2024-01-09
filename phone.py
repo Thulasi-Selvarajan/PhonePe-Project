@@ -1,5 +1,6 @@
 import json
 import streamlit as st
+from PIL import Image
 import pandas as pd
 import requests
 import psycopg2
@@ -333,18 +334,25 @@ def ques10():
 
 st.set_page_config(layout= "wide")
 
-st.title("PhonePe Data Visualization And Exploration")
+st.markdown('<h1 style="color: #4B0082;">PhonePe Data Visualization And Exploration</h1>', unsafe_allow_html=True)
 tab1, tab2, tab3 = st.tabs(["***HOME***","***DATA***","***TOP CHARTS***"])
 
 with tab1:
     
 
     
-    st.header("PhonePe")
-    st.subheader("Use PhonePe For Simple, Fast & Secure Transaction")
+    st.markdown('<h2 style="color: #4B0082;">PhonePe</h2>', unsafe_allow_html=True)
+    st.markdown('<h3 style="color: #4B0082;">Use PhonePe For Simple, Fast & Secure Transaction</h3>', unsafe_allow_html=True)
     st.download_button("DOWNLOAD THE APP NOW", "https://www.phonepe.com/app-download/")
+    
+    image_path = ("C://Users//Acer//Desktop//Python-V//image.jpeg")  
+    image = Image.open(image_path)
+
+    # Display the image using st.image()
+    st.sidebar.image(image)
 
     col3=st.sidebar
+    
     with col3:
         st.write("**Just Activate**")
         st.write("**One App For All Things Money.**")

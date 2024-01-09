@@ -1,15 +1,28 @@
+# Importing necessary libraries
 
-#pakages
 import os
 import psycopg2
 import json
 import git
 import pandas as pd
-#aggre_transaction
+
+# Setting the path for aggregated transaction data
+
 path1 = "C:/Users/Acer/Desktop/Python-V/PhonePe-Pro2/pulse/data/aggregated/transaction/country/india/state/"
 agg_tran_list = os.listdir(path1)
 
-columns1 ={"States":[], "Years":[], "Quarter":[], "Transaction_type":[], "Transaction_count":[],"Transaction_amount":[] }
+# Creating an initial dictionary for aggregated transaction data
+
+column1 ={
+    "States":[], 
+    "Years":[], 
+    "Quarter":[], 
+    "Transaction_type":[], 
+    "Transaction_count":[],
+    "Transaction_amount":[] 
+}
+
+# Looping through state folders, years, and files to extract data
 
 for state in agg_tran_list:
     cur_states =path1+state+"/"
@@ -28,25 +41,32 @@ for state in agg_tran_list:
                 name = i["name"]
                 count = i["paymentInstruments"][0]["count"]
                 amount = i["paymentInstruments"][0]["amount"]
-                columns1["Transaction_type"].append(name)
-                columns1["Transaction_count"].append(count)
-                columns1["Transaction_amount"].append(amount)
-                columns1["States"].append(state)
-                columns1["Years"].append(year)
-                columns1["Quarter"].append(int(file.strip(".json")))
+                column1["Transaction_type"].append(name)
+                column1["Transaction_count"].append(count)
+                column1["Transaction_amount"].append(amount)
+                column1["States"].append(state)
+                column1["Years"].append(year)
+                column1["Quarter"].append(int(file.strip(".json")))
 
-aggre_transaction = pd.DataFrame(columns1)
+# Creating a Pandas DataFrame for aggregated transaction data 
+                               
+aggre_transaction = pd.DataFrame(column1)
+
+# Cleaning and standardizing state names in the DataFrame
 
 aggre_transaction["States"] = aggre_transaction["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
 aggre_transaction["States"] = aggre_transaction["States"].str.replace("-"," ")
 aggre_transaction["States"] = aggre_transaction["States"].str.title()
 aggre_transaction['States'] = aggre_transaction['States'].str.replace("Dadra & Nagar Haveli & Daman & Diu", "Dadra and Nagar Haveli and Daman and Diu")
-#aggre_user
+
+# Setting the path for aggregated user data
 path2 = "C:/Users/Acer/Desktop/Python-V/PhonePe-Pro2/pulse/data/aggregated/user/country/india/state/"
 agg_user_list = os.listdir(path2)
 
-columns2 = {"States":[], "Years":[], "Quarter":[], "Brands":[],"Transaction_count":[], "Percentage":[]}
+# Creating an initial dictionary for aggregated user data
+column2 = {"States":[], "Years":[], "Quarter":[], "Brands":[],"Transaction_count":[], "Percentage":[]}
 
+# Looping through state folders, years, and files to extract data
 for state in agg_user_list:
     cur_states = path2+state+"/"
     agg_year_list = os.listdir(cur_states)
@@ -66,30 +86,34 @@ for state in agg_user_list:
                     brand = i["brand"]
                     count = i["count"]
                     percentage = i["percentage"]
-                    columns2["Brands"].append(brand)
-                    columns2["Transaction_count"].append(count)
-                    columns2["Percentage"].append(percentage)
-                    columns2["States"].append(state)
-                    columns2["Years"].append(year)
-                    columns2["Quarter"].append(int(file.strip(".json")))
+                    column2["Brands"].append(brand)
+                    column2["Transaction_count"].append(count)
+                    column2["Percentage"].append(percentage)
+                    column2["States"].append(state)
+                    column2["Years"].append(year)
+                    column2["Quarter"].append(int(file.strip(".json")))
             
             except:
                 pass
 
-aggre_user = pd.DataFrame(columns2)
+# Creating a Pandas DataFrame for aggregated user data
+aggre_user = pd.DataFrame(column2)
 
+# Cleaning and standardizing state names in the DataFrame
 aggre_user["States"] = aggre_user["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
 aggre_user["States"] = aggre_user["States"].str.replace("-"," ")
 aggre_user["States"] = aggre_user["States"].str.title()
 aggre_user['States'] = aggre_user['States'].str.replace("Dadra & Nagar Haveli & Daman & Diu", "Dadra and Nagar Haveli and Daman and Diu")
 
 
-#map_transaction
+# Setting the path for Map transaction data
 path3 = "C:/Users/Acer/Desktop/Python-V/PhonePe-Pro2/pulse/data/map/transaction/hover/country/india/state/"
 map_tran_list = os.listdir(path3)
 
-columns3 = {"States":[], "Years":[], "Quarter":[],"District":[], "Transaction_count":[],"Transaction_amount":[]}
+# Creating an initial dictionary for Map transaction data
+column3 = {"States":[], "Years":[], "Quarter":[],"District":[], "Transaction_count":[],"Transaction_amount":[]}
 
+# Looping through state folders, years, and files to extract data
 for state in map_tran_list:
     cur_states = path3+state+"/"
     map_year_list = os.listdir(cur_states)
@@ -107,27 +131,31 @@ for state in map_tran_list:
                 name = i["name"]
                 count = i["metric"][0]["count"]
                 amount = i["metric"][0]["amount"]
-                columns3["District"].append(name)
-                columns3["Transaction_count"].append(count)
-                columns3["Transaction_amount"].append(amount)
-                columns3["States"].append(state)
-                columns3["Years"].append(year)
-                columns3["Quarter"].append(int(file.strip(".json")))
+                column3["District"].append(name)
+                column3["Transaction_count"].append(count)
+                column3["Transaction_amount"].append(amount)
+                column3["States"].append(state)
+                column3["Years"].append(year)
+                column3["Quarter"].append(int(file.strip(".json")))
 
-map_transaction = pd.DataFrame(columns3)
+# Creating a Pandas DataFrame for Map transaction data
+map_transaction = pd.DataFrame(column3)
 
+# Cleaning and standardizing state names in the DataFrame
 map_transaction["States"] = map_transaction["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
 map_transaction["States"] = map_transaction["States"].str.replace("-"," ")
 map_transaction["States"] = map_transaction["States"].str.title()
 map_transaction['States'] = map_transaction['States'].str.replace("Dadra & Nagar Haveli & Daman & Diu", "Dadra and Nagar Haveli and Daman and Diu")
 
                 
-#map_user
+# Setting the path for Map user data
 path4 = "C:/Users/Acer/Desktop/Python-V/PhonePe-Pro2/pulse/data/map/user/hover/country/india/state/"
 map_user_list = os.listdir(path4)
 
-columns4 = {"States":[], "Years":[], "Quarter":[], "Districts":[], "RegisteredUser":[], "AppOpens":[]}
+# Creating an initial dictionary for Map user data
+column4 = {"States":[], "Years":[], "Quarter":[], "Districts":[], "RegisteredUser":[], "AppOpens":[]}
 
+# Looping through state folders, years, and files to extract data
 for state in map_user_list:
     cur_states = path4+state+"/"
     map_year_list = os.listdir(cur_states)
@@ -145,15 +173,17 @@ for state in map_user_list:
                 district = i[0]
                 registereduser = i[1]["registeredUsers"]
                 appopens = i[1]["appOpens"]
-                columns4["Districts"].append(district)
-                columns4["RegisteredUser"].append(registereduser)
-                columns4["AppOpens"].append(appopens)
-                columns4["States"].append(state)
-                columns4["Years"].append(year)
-                columns4["Quarter"].append(int(file.strip(".json")))
+                column4["Districts"].append(district)
+                column4["RegisteredUser"].append(registereduser)
+                column4["AppOpens"].append(appopens)
+                column4["States"].append(state)
+                column4["Years"].append(year)
+                column4["Quarter"].append(int(file.strip(".json")))
 
-map_user = pd.DataFrame(columns4)
+# Creating a Pandas DataFrame for Map user data
+map_user = pd.DataFrame(column4)
 
+# Cleaning and standardizing state names in the DataFrame
 map_user["States"] = map_user["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
 map_user["States"] = map_user["States"].str.replace("-"," ")
 map_user["States"] = map_user["States"].str.title()
@@ -161,12 +191,14 @@ map_user['States'] = map_user['States'].str.replace("Dadra & Nagar Haveli & Dama
 
    
 
-#top_transaction
+# Setting the path for Top transaction data
 path5 = "C:/Users/Acer/Desktop/Python-V/PhonePe-Pro2/pulse/data/top/transaction/country/india/state/"
 top_tran_list = os.listdir(path5)
 
-columns5 = {"States":[], "Years":[], "Quarter":[], "Pincodes":[], "Transaction_count":[], "Transaction_amount":[]}
+# Creating an initial dictionary for Top transaction data
+column5 = {"States":[], "Years":[], "Quarter":[], "Pincodes":[], "Transaction_count":[], "Transaction_amount":[]}
 
+# Looping through state folders, years, and files to extract data
 for state in top_tran_list:
     cur_states = path5+state+"/"
     top_year_list = os.listdir(cur_states)
@@ -184,27 +216,31 @@ for state in top_tran_list:
                 entityName = i["entityName"]
                 count = i["metric"]["count"]
                 amount = i["metric"]["amount"]
-                columns5["Pincodes"].append(entityName)
-                columns5["Transaction_count"].append(count)
-                columns5["Transaction_amount"].append(amount)
-                columns5["States"].append(state)
-                columns5["Years"].append(year)
-                columns5["Quarter"].append(int(file.strip(".json")))
+                column5["Pincodes"].append(entityName)
+                column5["Transaction_count"].append(count)
+                column5["Transaction_amount"].append(amount)
+                column5["States"].append(state)
+                column5["Years"].append(year)
+                column5["Quarter"].append(int(file.strip(".json")))
 
-top_transaction = pd.DataFrame(columns5)
+# Creating a Pandas DataFrame for Top transaction data
+top_transaction = pd.DataFrame(column5)
 
+# Cleaning and standardizing state names in the DataFrame
 top_transaction["States"] = top_transaction["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
 top_transaction["States"] = top_transaction["States"].str.replace("-"," ")
 top_transaction["States"] = top_transaction["States"].str.title()
 top_transaction['States'] = top_transaction['States'].str.replace("Dadra & Nagar Haveli & Daman & Diu", "Dadra and Nagar Haveli and Daman and Diu")
 
 
-#top_user
+# Setting the path for Top user data
 path6 = "C:/Users/Acer/Desktop/Python-V/PhonePe-Pro2/pulse/data/top/user/country/india/state/"
 top_user_list = os.listdir(path6)
 
-columns6 = {"States":[], "Years":[], "Quarter":[], "Pincodes":[], "RegisteredUser":[]}
+# Creating an initial dictionary for Top user data
+column6 = {"States":[], "Years":[], "Quarter":[], "Pincodes":[], "RegisteredUser":[]}
 
+# Looping through state folders, years, and files to extract data
 for state in top_user_list:
     cur_states = path6+state+"/"
     top_year_list = os.listdir(cur_states)
@@ -221,20 +257,22 @@ for state in top_user_list:
             for i in F["data"]["pincodes"]:
                 name = i["name"]
                 registeredusers = i["registeredUsers"]
-                columns6["Pincodes"].append(name)
-                columns6["RegisteredUser"].append(registereduser)
-                columns6["States"].append(state)
-                columns6["Years"].append(year)
-                columns6["Quarter"].append(int(file.strip(".json")))
+                column6["Pincodes"].append(name)
+                column6["RegisteredUser"].append(registereduser)
+                column6["States"].append(state)
+                column6["Years"].append(year)
+                column6["Quarter"].append(int(file.strip(".json")))
 
-top_user = pd.DataFrame(columns6)
+# Creating a Pandas DataFrame for Top user data
+top_user = pd.DataFrame(column6)
 
+# Cleaning and standardizing state names in the DataFrame
 top_user["States"] = top_user["States"].str.replace("andaman-&-nicobar-islands","Andaman & Nicobar")
 top_user["States"] = top_user["States"].str.replace("-"," ")
 top_user["States"] = top_user["States"].str.title()
 top_user['States'] = top_user['States'].str.replace("Dadra & Nagar Haveli & Daman & Diu", "Dadra and Nagar Haveli and Daman and Diu")
-#Table Creation
-#pgsql connection
+
+# PostgreSQL Database Connection
 mydb = psycopg2.connect(host="localhost",
                         user="postgres",
                         password="2022",
@@ -243,7 +281,7 @@ mydb = psycopg2.connect(host="localhost",
                         )
 cursor = mydb.cursor()
 
-#aggregated transaction table
+#Creating a aggregated transaction table and inserting data
 create_query1 = '''CREATE TABLE if not exists aggregated_transaction (States varchar(50),
                                                                       Years int,
                                                                       Quarter int,
@@ -267,7 +305,7 @@ for index,row in aggre_transaction.iterrows():
     cursor.execute(insert_query1,values)
     mydb.commit()
 
-#aggregated user table
+#creating a aggregated user table and inserting data
 create_query2 = '''CREATE TABLE if not exists aggregated_user (States varchar(50),
                                                                 Years int,
                                                                 Quarter int,
@@ -289,7 +327,7 @@ for index,row in aggre_user.iterrows():
     cursor.execute(insert_query2,values)
     mydb.commit()
 
-#map_transaction_table
+#Creating a map_transaction_table and inserting the data
 create_query3 = '''CREATE TABLE if not exists map_transaction (States varchar(50),
                                                                 Years int,
                                                                 Quarter int,
@@ -317,7 +355,7 @@ for index,row in map_transaction.iterrows():
             mydb.commit() 
 
 
-#map_user_table
+#creating a map_user_table and inserting data
 create_query4 = '''CREATE TABLE if not exists map_user (States varchar(50),
                                                         Years int,
                                                         Quarter int,
@@ -339,7 +377,7 @@ for index,row in map_user.iterrows():
     cursor.execute(insert_query4,values)
     mydb.commit()
 
-#top_transaction_table
+#creating a top_transaction_table and inserting data
 create_query5 = '''CREATE TABLE if not exists top_transaction (States varchar(50),
                                                                 Years int,
                                                                 Quarter int,
@@ -361,7 +399,7 @@ for index,row in top_transaction.iterrows():
     cursor.execute(insert_query5,values)
     mydb.commit()
 
-#top_user_table
+#creating a top_user_table and inserting data
 create_query6 = '''CREATE TABLE if not exists top_user (States varchar(50),
                                                         Years int,
                                                         Quarter int,
